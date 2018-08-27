@@ -1,0 +1,3 @@
+[submodule "external/sqliteodbc"]
+	path = external/sqliteodbc
+	url = git@github.com:bradleysepos/sqliteodbc.git
