@@ -1,0 +1,7 @@
+build/
+external/download/
+
+# Xcode
+**/xcuserdata
+**/xcshareddata/IDEWorkspaceChecks.plist
+
