@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+BUILD="$(pwd)/build/external"
+rm -rf "${BUILD}"
+SOURCE="$(pwd)/external"
+DOWNLOAD="${SOURCE}/download"
+mkdir -p "${DOWNLOAD}"
+
+# icu
+ICU_URL="http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz"
+ICU_PKG="${ICU_URL##*/}"
+cd "${DOWNLOAD}"
+if [[ ! -e "${ICU_PKG}" ]] || [[ ! -r "${ICU_PKG}" ]]; then
+    curl -Lf --connect-timeout 30 "${ICU_URL}" -o "${ICU_PKG}"
+fi
+if [[ "$(shasum -a 256 "${ICU_PKG}" | awk '{ print $1 }' 2>/dev/null)" != "3dd9868d666350dda66a6e305eecde9d479fb70b30d5b55d78a1deffb97d5aa3" ]]; then
+    echo "SHA-256 failed for ${ICU_PKG}" >&2
+    exit 1
+fi
+mkdir -p "${BUILD}/icu"
+tar -xf "${ICU_PKG}" --directory "${BUILD}/icu" --strip-components=1
+cd "${BUILD}/icu"
+source/configure --srcdir=source --prefix="${BUILD}"
+make -j$(sysctl -n hw.ncpu)
+make install
