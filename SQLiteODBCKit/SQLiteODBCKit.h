@@ -3,7 +3,7 @@
 //  SQLiteODBCKit
 //
 //  Created by Bradley Sepos on 8/27/18.
-//  Copyright © 2018 Bradley Sepos. All rights reserved.
+//  Copyright © 2019 Bradley Sepos. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
